@@ -1,266 +1,185 @@
-package packageone;
-
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-
-public class OnlineTest extends JFrame implements ActionListener {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	JButton btnNext, btnBookmark;
-	JLabel label;
-	ButtonGroup bg;
-	int m[] = new int[15];
-	JRadioButton radioButton[] = new JRadioButton[5];
-	int current = 0, count = 0, x = 1, y = 1, now = 0;
-
-	OnlineTest(String s) {
-		super(s);
-		label = new JLabel();
-		add(label);
-		bg = new ButtonGroup();
-
-		for (int i = 0; i < 5; i++) {
-			radioButton[i] = new JRadioButton();
-			add(radioButton[i]);
-			bg.add(radioButton[i]);
-		}
-
-		btnNext = new JButton("Next Question");
-		btnBookmark = new JButton("Result");
-		btnNext.addActionListener(this);
-		btnBookmark.addActionListener(this);
-		add(btnNext);
-		add(btnBookmark);
-		set();
-		label.setBounds(30, 40, 450, 20);
-		radioButton[0].setBounds(50, 80, 450, 20);
-		radioButton[1].setBounds(50, 110, 200, 20);
-		radioButton[2].setBounds(50, 140, 200, 20);
-		radioButton[3].setBounds(50, 170, 200, 20);
-		btnNext.setBounds(100, 240, 150, 30);
-		btnBookmark.setBounds(270, 240, 200, 30);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setLayout(null);
-		setLocation(250, 100);
-		setVisible(true);
-		setSize(700, 600);
-		Color c = new Color(255, 150, 0);
-		getContentPane().setBackground(c);
-		// btnBookmark.setEnabled(false);
-	}
-
-	/* handle all event */
-	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnNext) {
-			if (qcheck())
-				count = count + 1;
-			current++;
-			set();
-			if (current == 14) {
-				btnNext.setEnabled(false);
-				btnBookmark.setText("Result");
-			}
-		}
-		
-		if (e.getActionCommand().equals("Bookmark Question")) {
-			JButton bk = new JButton("Bookmark " + x);
-			bk.setBounds(480, 20 + 30 * x, 150, 30);
-			add(bk);
-			bk.addActionListener(this);
-			m[x] = current;
-			x++;
-			current++;
-			set();
-			if (current == 14)
-				btnBookmark.setText("Score");
-			setVisible(false);
-			setVisible(true);
-		}
-
-		for (int i = 0, y = 1; i < x; i++, y++) {
-			if (e.getActionCommand().equals("Bookmark" + y)) {
-				if (qcheck())
-					count = count + 1;
-				now = current;
-				current = m[y];
-				set();
-				((JButton) e.getSource()).setEnabled(false);
-				current = now;
-			}
-		}
-
-		if (e.getActionCommand().equals("Result")) {
-			if (qcheck())
-				count = count + 1;
-			current++;
-			JOptionPane.showMessageDialog(this, "You have answered " + count + " Questions correctly");
-			System.exit(0);
-		}
-	}
-
-	/* SET Questions with options */
-	void set() {
-		radioButton[4].setSelected(true);
-		if (current == 0) {
-			label.setText("Que1:  Who invented C++?");
-			radioButton[0].setText("Dennis Ritchie");
-			radioButton[1].setText("Ken Thompson");
-			radioButton[2].setText("Brian Kernighan");
-			radioButton[3].setText("Bjarne Stroustrup");
-		}
-		if (current == 1) {
-			label.setText("Que2:  Which concept allows you to reuse the written code?");
-			radioButton[0].setText("Encapsulation");
-			radioButton[1].setText("Abstraction");
-			radioButton[2].setText("Inheritance");
-			radioButton[3].setText(" Polymorphism");
-		}
-		if (current == 2) {
-			label.setText("Que3: Which of the following user-defined header file extension used in c++?");
-			radioButton[0].setText("hg");
-			radioButton[1].setText("cpp");
-			radioButton[2].setText("h");
-			radioButton[3].setText(" hf");
-		}
-		if (current == 3) {
-			label.setText("Que4: Wrapping data and its related functionality into a single entity is known as _____");
-			radioButton[0].setText(" Abstraction");
-			radioButton[1].setText("Encapsulation");
-			radioButton[2].setText("Polymorphism");
-			radioButton[3].setText("Modularity");
-		}
-		if (current == 4) {
-			label.setText("Que5:  Which of the following correctly declares an array in C++?");
-			radioButton[0].setText(" array{10};");
-			radioButton[1].setText("array array[10];");
-			radioButton[2].setText("int array;");
-			radioButton[3].setText("int array[10];");
-		}
-		if (current == 5) {
-			label.setText("Que6: Which of the following is a correct identifier in C++?");
-			radioButton[0].setText("VAR_1234");
-			radioButton[1].setText(" $var_name");
-			radioButton[2].setText("7VARNAME");
-			radioButton[3].setText("7var_name");
-		}
-		if (current == 6) {
-			label.setText("Que7:  Which component is used to compile, debug and execute the java programs?");
-			radioButton[0].setText("JRE");
-			radioButton[1].setText("JIT");
-			radioButton[2].setText("JDK");
-			radioButton[3].setText("JVM");
-		}
-		if (current == 7) {
-			label.setText("Que8:  Which one of the following is not a Java feature?");
-			radioButton[0].setText("Object-oriented");
-			radioButton[1].setText("Use of pointers");
-			radioButton[2].setText("Portable");
-			radioButton[3].setText("Dynamic and Extensible");
-		}
-		if (current == 8) {
-			label.setText("Que9: Which of these cannot be used for a variable name in Java?");
-			radioButton[0].setText("identifier & keyword");
-			radioButton[1].setText("identifier");
-			radioButton[2].setText("keyword");
-			radioButton[3].setText("none of the mentioned");
-		}
-		if (current == 9) {
-			label.setText("Que10: What is the extension of java code files?");
-			radioButton[0].setText(".js");
-			radioButton[1].setText(".txt");
-			radioButton[2].setText(".class");
-			radioButton[3].setText(".java");
-		}
-		if (current == 10) {
-			label.setText("Que11: Which is more effective while calling the C++ functions?");
-			radioButton[0].setText("call by object");
-			radioButton[1].setText("call by pointer");
-			radioButton[2].setText("call by value");
-			radioButton[3].setText("call by reference");
-		}
-		if (current == 11) {
-			label.setText("Que12: Which of the following is used to terminate the function declaration in C++?");
-			radioButton[0].setText(";");
-			radioButton[1].setText("]");
-			radioButton[2].setText(")");
-			radioButton[3].setText(":");
-		}
-		if (current == 12) {
-			label.setText("Que13: Which keyword is used to define the macros in c++?");
-			radioButton[0].setText(" #macro");
-			radioButton[1].setText("#define");
-			radioButton[2].setText("macro");
-			radioButton[3].setText("define");
-		}
-		if (current == 13) {
-			label.setText(
-					"Que14:  The C++ code which causes abnormal termination/behaviour of a program should be written under ___ block.");
-			radioButton[0].setText("catch");
-			radioButton[1].setText(" throw");
-			radioButton[2].setText("try");
-			radioButton[3].setText("finally");
-		}
-		if (current == 14) {
-			label.setText(
-					"Que15: Which of the following symbol is used to declare the preprocessor directives in C++?");
-			radioButton[0].setText("$");
-			radioButton[1].setText("^");
-			radioButton[2].setText("#");
-			radioButton[3].setText("*");
-		}
-
-		label.setBounds(30, 40, 450, 20);
-		for (int i = 0, j = 0; i <= 90; i += 30, j++)
-			radioButton[j].setBounds(50, 80 + i, 200, 20);
-	}
-
-	/* declare right answers. */
-	boolean qcheck() {
-		if (current == 0)
-			return (radioButton[3].isSelected());
-		if (current == 1)
-			return (radioButton[2].isSelected());
-		if (current == 2)
-			return (radioButton[2].isSelected());
-		if (current == 3)
-			return (radioButton[1].isSelected());
-		if (current == 4)
-			return (radioButton[3].isSelected());
-		if (current == 5)
-			return (radioButton[0].isSelected());
-		if (current == 6)
-			return (radioButton[1].isSelected());
-		if (current == 7)
-			return (radioButton[1].isSelected());
-		if (current == 8)
-			return (radioButton[2].isSelected());
-		if (current == 9)
-			return (radioButton[3].isSelected());
-		if (current == 10)
-			return (radioButton[3].isSelected());
-		if (current == 11)
-			return (radioButton[0].isSelected());
-		if (current == 12)
-			return (radioButton[1].isSelected());
-		if (current == 13)
-			return (radioButton[2].isSelected());
-		if (current == 14)
-			return (radioButton[2].isSelected());
-		return false;
-	}
-
-	public static void main(String s[]) {
-		new OnlineTest("Online Exam Portal");
-	}
-
-}
+import java.awt.*;  
+import java.awt.event.*;  
+import javax.swing.*;  
+  
+class OnlineTest extends JFrame implements ActionListener  
+{  
+    JLabel l;  
+    JRadioButton jb[]=new JRadioButton[5];  
+    JButton b1,b2;  
+    ButtonGroup bg;  
+    int count=0,current=0,x=1,y=1,now=0;  
+    int m[]=new int[10];      
+    OnlineTest(String s)  
+    {  
+        super(s);  
+        l=new JLabel();  
+        add(l);  
+        bg=new ButtonGroup();  
+        for(int i=0;i<5;i++)  
+        {  
+            jb[i]=new JRadioButton();     
+            add(jb[i]);  
+            bg.add(jb[i]);  
+        }  
+        b1=new JButton("Next");  
+        b2=new JButton("Bookmark");  
+        b1.addActionListener(this);  
+        b2.addActionListener(this);  
+        add(b1);add(b2);  
+        set();  
+        l.setBounds(30,40,450,20);  
+        jb[0].setBounds(50,80,100,20);  
+        jb[1].setBounds(50,110,100,20);  
+        jb[2].setBounds(50,140,100,20);  
+        jb[3].setBounds(50,170,100,20);  
+        b1.setBounds(100,240,100,30);  
+        b2.setBounds(270,240,100,30);  
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);  
+        setLayout(null);  
+        setLocation(250,100);  
+        setVisible(true);  
+        setSize(600,350);  
+    }  
+    public void actionPerformed(ActionEvent e)  
+    {  
+        if(e.getSource()==b1)  
+        {  
+            if(check())  
+                count=count+1;  
+            current++;  
+            set();    
+            if(current==9)  
+            {  
+                b1.setEnabled(false);  
+                b2.setText("Result");  
+            }  
+        }  
+        if(e.getActionCommand().equals("Bookmark"))  
+        {  
+            JButton bk=new JButton("Bookmark"+x);  
+            bk.setBounds(480,20+30*x,100,30);  
+            add(bk);  
+            bk.addActionListener(this);  
+            m[x]=current;  
+            x++;  
+            current++;  
+            set();    
+            if(current==9)  
+                b2.setText("Result");  
+            setVisible(false);  
+            setVisible(true);  
+        }  
+        for(int i=0,y=1;i<x;i++,y++)  
+        {  
+        if(e.getActionCommand().equals("Bookmark"+y))  
+        {  
+            if(check())  
+                count=count+1;  
+            now=current;  
+            current=m[y];  
+            set();  
+            ((JButton)e.getSource()).setEnabled(false);  
+            current=now;  
+        }  
+        }  
+      
+        if(e.getActionCommand().equals("Result"))  
+        {  
+            if(check())  
+                count=count+1;  
+            current++;  
+            //System.out.println("correct ans="+count);  
+            JOptionPane.showMessageDialog(this,"correct ans="+count);  
+            System.exit(0);  
+        }  
+    }  
+    void set()  
+    {  
+        jb[4].setSelected(true);  
+        if(current==0)  
+        {  
+            l.setText("Que1: Which one among these is not a primitive datatype?");  
+            jb[0].setText("int");jb[1].setText("Float");jb[2].setText("boolean");jb[3].setText("char");   
+        }  
+        if(current==1)  
+        {  
+            l.setText("Que2: Which class is available to all the class automatically?");  
+            jb[0].setText("Swing");jb[1].setText("Applet");jb[2].setText("Object");jb[3].setText("ActionEvent");  
+        }  
+        if(current==2)  
+        {  
+            l.setText("Que3: Which package is directly available to our class without importing it?");  
+            jb[0].setText("swing");jb[1].setText("applet");jb[2].setText("net");jb[3].setText("lang");  
+        }  
+        if(current==3)  
+        {  
+            l.setText("Que4: String class is defined in which package?");  
+            jb[0].setText("lang");jb[1].setText("Swing");jb[2].setText("Applet");jb[3].setText("awt");  
+        }  
+        if(current==4)  
+        {  
+            l.setText("Que5: Which institute is best for java coaching?");  
+            jb[0].setText("Utek");jb[1].setText("Aptech");jb[2].setText("SSS IT");jb[3].setText("jtek");  
+        }  
+        if(current==5)  
+        {  
+            l.setText("Que6: Which one among these is not a keyword?");  
+            jb[0].setText("class");jb[1].setText("int");jb[2].setText("get");jb[3].setText("if");  
+        }  
+        if(current==6)  
+        {  
+            l.setText("Que7: Which one among these is not a class? ");  
+            jb[0].setText("Swing");jb[1].setText("Actionperformed");jb[2].setText("ActionEvent");  
+                        jb[3].setText("Button");  
+        }  
+        if(current==7)  
+        {  
+            l.setText("Que8: which one among these is not a function of Object class?");  
+            jb[0].setText("toString");jb[1].setText("finalize");jb[2].setText("equals");  
+                        jb[3].setText("getDocumentBase");         
+        }  
+        if(current==8)  
+        {  
+            l.setText("Que9: which function is not present in Applet class?");  
+            jb[0].setText("init");jb[1].setText("main");jb[2].setText("start");jb[3].setText("destroy");  
+        }  
+        if(current==9)  
+        {  
+            l.setText("Que10: Which one among these is not a valid component?");  
+            jb[0].setText("JButton");jb[1].setText("JList");jb[2].setText("JButtonGroup");  
+                        jb[3].setText("JTextArea");  
+        }  
+        l.setBounds(30,40,450,20);  
+        for(int i=0,j=0;i<=90;i+=30,j++)  
+            jb[j].setBounds(50,80+i,200,20);  
+    }  
+    boolean check()  
+    {  
+        if(current==0)  
+            return(jb[1].isSelected());  
+        if(current==1)  
+            return(jb[2].isSelected());  
+        if(current==2)  
+            return(jb[3].isSelected());  
+        if(current==3)  
+            return(jb[0].isSelected());  
+        if(current==4)  
+            return(jb[2].isSelected());  
+        if(current==5)  
+            return(jb[2].isSelected());  
+        if(current==6)  
+            return(jb[1].isSelected());  
+        if(current==7)  
+            return(jb[3].isSelected());  
+        if(current==8)  
+            return(jb[1].isSelected());  
+        if(current==9)  
+            return(jb[2].isSelected());  
+        return false;  
+    }  
+    public static void main(String s[])  
+    {  
+        new OnlineTest("Online Test Of Java");  
+    }  
+}  
