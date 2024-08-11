@@ -71,7 +71,7 @@ public class OnlineTest extends JFrame implements ActionListener {
 				btnBookmark.setText("Result");
 			}
 		}
-		// BUG
+		
 		if (e.getActionCommand().equals("Bookmark Question")) {
 			JButton bk = new JButton("Bookmark " + x);
 			bk.setBounds(480, 20 + 30 * x, 150, 30);
